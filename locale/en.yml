@@ -1,0 +1,31 @@
+zephyrisle-registration-code:
+  forum:
+    signup:
+      registration_code_label: Registration code
+      registration_code_placeholder: Enter your registration code
+  admin:
+    manager:
+      heading: Registration codes
+      description: Manage username and registration-code pairs. Imported CSV format: username,code
+      username_label: Username
+      username_placeholder: Reserved username
+      code_label: Registration code
+      code_placeholder: Registration code
+      add_button: Add
+      refresh_button: Refresh
+      export_button: Export CSV
+      import_label: Import CSV
+      import_placeholder: Paste CSV content here, one record per line. Format: username,code
+      import_button: Import
+      empty_text: No registration codes found.
+      delete_button: Delete
+      table:
+        username: Username
+        code: Code
+        status: Status
+        used_by: Used by
+        used_at: Used at
+        actions: Actions
+      status:
+        used: Used
+        unused: Unused

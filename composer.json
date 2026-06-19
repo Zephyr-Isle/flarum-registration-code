@@ -1,0 +1,26 @@
+{
+  "name": "zephyrisle/flarum-registration-code",
+  "description": "Registration code management for Flarum.",
+  "type": "flarum-extension",
+  "license": "MIT",
+  "require": {
+    "flarum/core": "^1.8"
+  },
+  "autoload": {
+    "psr-4": {
+      "Zephyrisle\\RegistrationCode\\": "src/"
+    }
+  },
+  "extra": {
+    "flarum-extension": {
+      "title": "Registration Code",
+      "icon": {
+        "name": "fas fa-key",
+        "backgroundColor": "#2563eb",
+        "color": "#ffffff"
+      }
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}

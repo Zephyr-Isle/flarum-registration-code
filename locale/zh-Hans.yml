@@ -1,0 +1,31 @@
+zephyrisle-registration-code:
+  forum:
+    signup:
+      registration_code_label: 注册码
+      registration_code_placeholder: 请输入注册码
+  admin:
+    manager:
+      heading: 注册码管理
+      description: 管理用户名与注册码对应关系，支持 CSV 导入和导出。格式：username,code
+      username_label: 用户名
+      username_placeholder: 预设用户名
+      code_label: 注册码
+      code_placeholder: 注册码
+      add_button: 添加
+      refresh_button: 刷新
+      export_button: 导出 CSV
+      import_label: 导入 CSV
+      import_placeholder: 粘贴 CSV 内容，每行一条，格式：username,code
+      import_button: 导入
+      empty_text: 暂无注册码数据。
+      delete_button: 删除
+      table:
+        username: 用户名
+        code: 注册码
+        status: 状态
+        used_by: 已使用用户
+        used_at: 使用时间
+        actions: 操作
+      status:
+        used: 已使用
+        unused: 未使用
