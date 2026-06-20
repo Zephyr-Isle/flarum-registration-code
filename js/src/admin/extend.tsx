@@ -9,10 +9,12 @@ export default [
       label: app.translator.trans('zephyrisle-registration-code.admin.settings.enabled_label', {}, true),
       type: 'boolean',
     }), 30)
-    .setting(() => ({
-      setting: 'zephyrisle-registration-code.manager',
-      label: app.translator.trans('zephyrisle-registration-code.admin.manager.heading'),
-      type: 'component',
-      component: RegistrationCodeManager,
-    }), 20)
+    .setting(() => function () {
+      return (
+        <div className="Form-group">
+          <h3>{app.translator.trans('zephyrisle-registration-code.admin.manager.heading')}</h3>
+          <RegistrationCodeManager />
+        </div>
+      );
+    }, 20)
 ];
