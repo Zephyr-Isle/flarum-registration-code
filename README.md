@@ -123,6 +123,32 @@ For issues, feature requests, or contributions, please visit the [GitHub reposit
 
 ## Changelog
 
+### 2.0.10
+- Use default extension page with Admin.setting() approach
+- Remove custom page approach for better compatibility
+- Add enabled boolean setting and RegistrationCodeManager component
+
+### 2.0.9
+- Add debug logging to RegistrationCodePage
+- Investigate custom page rendering issues
+
+### 2.0.8
+- Add settings container to admin page
+- Use buildSettingComponent for enabled setting
+- Separate settings from manager UI
+
+### 2.0.7
+- Add enabled setting for registration code requirement
+- Add English and Chinese translations
+
+### 2.0.6
+- Revert to Admin.page() approach for complex component
+- Recreate RegistrationCodePage component
+
+### 2.0.5
+- Use Admin.setting() with component type
+- Remove unused RegistrationCodePage component
+
 ### 2.0.4
 - Implemented custom admin page using ExtensionPage for Flarum v2 compatibility
 - Updated admin extend.ts to use Admin.page() method
