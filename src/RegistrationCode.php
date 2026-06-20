@@ -19,10 +19,10 @@ class RegistrationCode extends AbstractModel
         'used_at',
     ];
 
-    protected $dates = [
-        'used_at',
-        'created_at',
-        'updated_at',
+    protected $casts = [
+        'used_at' => 'datetime',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
     ];
 
     public function usedByUser(): BelongsTo

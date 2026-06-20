@@ -14,9 +14,9 @@ A Flarum extension that enforces one-time registration codes mapped to usernames
 
 ## Requirements
 
-- Flarum ^1.8
-- PHP 7.4 or higher
-- MySQL 5.7 or higher / MariaDB 10.2 or higher
+- Flarum ^2.0
+- PHP 8.3 or higher
+- MySQL 8.0 or higher / MariaDB 10.6 or higher
 
 ## Installation
 
@@ -122,6 +122,14 @@ MIT License
 For issues, feature requests, or contributions, please visit the [GitHub repository](https://github.com/Zephyr-Isle/flarum-registration-code).
 
 ## Changelog
+
+### 2.0.0
+- Updated for Flarum v2 compatibility
+- Updated PHP requirement to 8.3+
+- Updated to use new ApiResource extender instead of deprecated ApiSerializer
+- Updated model to use $casts instead of $dates for Laravel 13 compatibility
+- Updated webpack configuration for Flarum v2
+- Updated admin settings API for Flarum v2
 
 ### 1.0.0
 - Initial release

@@ -2,7 +2,8 @@
 
 namespace Zephyrisle\RegistrationCode;
 
-use Flarum\Api\Serializer\UserSerializer;
+use Flarum\Api\Resource\UserResource;
+use Flarum\Api\Schema;
 use Flarum\Extend;
 use Flarum\User\Event\Saving;
 use Zephyrisle\RegistrationCode\Api\Controller\CreateRegistrationCodeController;
@@ -10,7 +11,6 @@ use Zephyrisle\RegistrationCode\Api\Controller\DeleteRegistrationCodeController;
 use Zephyrisle\RegistrationCode\Api\Controller\ExportRegistrationCodesController;
 use Zephyrisle\RegistrationCode\Api\Controller\ImportRegistrationCodesController;
 use Zephyrisle\RegistrationCode\Api\Controller\ListRegistrationCodesController;
-use Zephyrisle\RegistrationCode\Api\UserAttributes;
 use Zephyrisle\RegistrationCode\Listener\ValidateRegistrationCode;
 
 return [
@@ -34,6 +34,8 @@ return [
     (new Extend\Event())
         ->listen(Saving::class, ValidateRegistrationCode::class),
 
-    (new Extend\ApiSerializer(UserSerializer::class))
-        ->attributes(UserAttributes::class),
+    (new Extend\ApiResource(UserResource::class))
+        ->fields(fn () => [
+            Schema\Str::make('registrationCode'),
+        ]),
 ];
