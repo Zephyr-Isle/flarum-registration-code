@@ -6,7 +6,7 @@ zephyrisle-registration-code:
   admin:
     manager:
       heading: 注册码管理
-      description: 管理用户名与注册码对应关系，支持 CSV 导入和导出。格式：username,code
+      description: "管理用户名与注册码对应关系，支持 CSV 导入和导出。格式：username,code"
       username_label: 用户名
       username_placeholder: 预设用户名
       code_label: 注册码
@@ -15,7 +15,7 @@ zephyrisle-registration-code:
       refresh_button: 刷新
       export_button: 导出 CSV
       import_label: 导入 CSV
-      import_placeholder: 粘贴 CSV 内容，每行一条，格式：username,code
+      import_placeholder: "粘贴 CSV 内容，每行一条，格式：username,code"
       import_button: 导入
       empty_text: 暂无注册码数据。
       delete_button: 删除

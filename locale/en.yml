@@ -6,7 +6,7 @@ zephyrisle-registration-code:
   admin:
     manager:
       heading: Registration codes
-      description: Manage username and registration-code pairs. Imported CSV format: username,code
+      description: "Manage username and registration-code pairs. Imported CSV format: username,code"
       username_label: Username
       username_placeholder: Reserved username
       code_label: Registration code
@@ -15,7 +15,7 @@ zephyrisle-registration-code:
       refresh_button: Refresh
       export_button: Export CSV
       import_label: Import CSV
-      import_placeholder: Paste CSV content here, one record per line. Format: username,code
+      import_placeholder: "Paste CSV content here, one record per line. Format: username,code"
       import_button: Import
       empty_text: No registration codes found.
       delete_button: Delete
