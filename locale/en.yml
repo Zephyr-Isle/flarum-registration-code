@@ -4,6 +4,8 @@ zephyrisle-registration-code:
       registration_code_label: Registration code
       registration_code_placeholder: Enter your registration code
   admin:
+    settings:
+      enabled_label: Enable registration code requirement
     manager:
       heading: Registration codes
       description: "Manage username and registration-code pairs. Imported CSV format: username,code"

@@ -4,6 +4,8 @@ zephyrisle-registration-code:
       registration_code_label: 注册码
       registration_code_placeholder: 请输入注册码
   admin:
+    settings:
+      enabled_label: 启用注册码验证
     manager:
       heading: 注册码管理
       description: "管理用户名与注册码对应关系，支持 CSV 导入和导出。格式：username,code"
