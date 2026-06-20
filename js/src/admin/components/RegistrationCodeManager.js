@@ -69,6 +69,10 @@ export default class RegistrationCodeManager extends Component {
   }
 
   async deleteRecord(id) {
+    if (!confirm(app.translator.trans('zephyrisle-registration-code.admin.manager.delete_confirm'))) {
+      return;
+    }
+
     this.submitting = true;
     m.redraw();
 

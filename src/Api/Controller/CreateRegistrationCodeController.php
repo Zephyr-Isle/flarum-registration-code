@@ -2,6 +2,7 @@
 
 namespace Zephyrisle\RegistrationCode\Api\Controller;
 
+use Flarum\User\User;
 use Illuminate\Validation\ValidationException;
 use Laminas\Diactoros\Response\JsonResponse;
 use Psr\Http\Message\ResponseInterface;
@@ -28,6 +29,10 @@ class CreateRegistrationCodeController extends AbstractRegistrationCodeControlle
 
         if (RegistrationCode::query()->where('code', $code)->exists()) {
             throw ValidationException::withMessages(['code' => 'This registration code already exists.']);
+        }
+
+        if (User::query()->where('username', $username)->exists()) {
+            throw ValidationException::withMessages(['username' => 'This username is already taken by an existing user.']);
         }
 
         $record = RegistrationCode::query()->create([

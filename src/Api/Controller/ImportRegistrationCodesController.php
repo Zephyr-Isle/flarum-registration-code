@@ -2,6 +2,7 @@
 
 namespace Zephyrisle\RegistrationCode\Api\Controller;
 
+use Flarum\User\User;
 use Illuminate\Validation\ValidationException;
 use Laminas\Diactoros\Response\JsonResponse;
 use Psr\Http\Message\ResponseInterface;
@@ -40,6 +41,11 @@ class ImportRegistrationCodesController extends AbstractRegistrationCodeControll
             }
 
             if ($username === '' || $code === '' || RegistrationCode::query()->where('code', $code)->exists()) {
+                $skipped++;
+                continue;
+            }
+
+            if (User::query()->where('username', $username)->exists()) {
                 $skipped++;
                 continue;
             }

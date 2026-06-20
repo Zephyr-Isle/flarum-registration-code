@@ -19,6 +19,7 @@ zephyrisle-registration-code:
       import_button: Import
       empty_text: No registration codes found.
       delete_button: Delete
+      delete_confirm: Are you sure you want to delete this registration code?
       table:
         username: Username
         code: Code

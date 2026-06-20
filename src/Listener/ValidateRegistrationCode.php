@@ -31,7 +31,7 @@ class ValidateRegistrationCode
             throw ValidationException::withMessages(['registrationCode' => 'Registration code is required.']);
         }
 
-        $record = RegistrationCode::query()->where('code', $registrationCode)->first();
+        $record = RegistrationCode::query()->where('code', $registrationCode)->lockForUpdate()->first();
 
         if (! $record) {
             throw ValidationException::withMessages(['registrationCode' => 'The registration code is invalid.']);
