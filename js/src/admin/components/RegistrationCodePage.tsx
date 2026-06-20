@@ -22,4 +22,9 @@ export default class RegistrationCodePage extends ExtensionPage {
       </div>
     );
   }
+
+  oninit() {
+    super.oninit();
+    console.log('RegistrationCodePage initialized');
+  }
 }
