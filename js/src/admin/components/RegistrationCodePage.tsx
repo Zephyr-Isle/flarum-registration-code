@@ -1,9 +1,8 @@
-import app from 'flarum/admin/app';
-import ExtensionPage from 'flarum/admin/components/ExtensionPage';
+import Component from 'flarum/common/Component';
 import RegistrationCodeManager from './RegistrationCodeManager';
 
-export default class RegistrationCodePage extends ExtensionPage {
-  content() {
+export default class RegistrationCodePage extends Component {
+  view() {
     return (
       <div className="RegistrationCodePage">
         <div className="container">
