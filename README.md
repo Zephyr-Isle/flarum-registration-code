@@ -6,7 +6,7 @@ A Flarum extension that enforces one-time registration codes mapped to usernames
 
 - **Secure Registration Control**: Require a valid registration code for new user sign-ups
 - **Username Mapping**: Each registration code is linked to a specific username for precise access control
-- **Admin Management**: Easy-to-use admin interface for managing registration codes
+- **Admin Management**: Manage registration codes directly from the extension's default admin page
 - **CSV Import/Export**: Bulk import and export registration codes via CSV format
 - **One-Time Use**: Each code can only be used once, preventing re-registration
 - **Usage Tracking**: Track which codes have been used, by whom, and when
@@ -28,21 +28,32 @@ composer require zephyrisle/flarum-registration-code
 
 Then enable the extension in the Flarum admin panel.
 
+## Admin Dashboard
+
+The admin UI follows Flarum 2's default extension page pattern:
+
+- Use the built-in extension page to configure and manage the extension
+- Toggle the `Enable registration code requirement` setting from the extension page
+- Create, import, export, refresh, and delete registration codes from the same page
+- Keep the management UI on the standard extension page for better compatibility with Flarum's admin dashboard
+
 ## Usage
 
 ### Creating Registration Codes
 
 1. Navigate to the Admin panel
-2. Go to Extensions → Registration Code
-3. Enter a username and registration code
-4. Click "Add" to create the code
+2. Open Extensions
+3. Open the Registration Code extension page
+4. Turn on `Enable registration code requirement` if you want to enforce code validation during sign-up
+5. Enter a username and registration code
+6. Click `Add` to create the code
 
 ### Importing Registration Codes
 
 1. Prepare a CSV file with the format: `username,code`
-2. In the admin panel, click "Import CSV"
+2. Open the Registration Code extension page in Admin
 3. Either paste the CSV content or upload a CSV file
-4. Click "Import" to process the codes
+4. Click `Import` to process the codes
 
 Example CSV format:
 ```text
@@ -54,7 +65,8 @@ charlie,CHARLIE-001
 
 ### Exporting Registration Codes
 
-1. In the admin panel, click "Export CSV"
+1. Open the Registration Code extension page in Admin
+2. Click `Export CSV`
 2. The browser will download a CSV file containing all registration codes
 
 ### User Registration
@@ -90,6 +102,8 @@ The extension creates the following database changes:
 
 ## Development
 
+The admin frontend follows Flarum 2's `Extend.Admin().setting(...)` pattern. The registration code manager is rendered as a custom block on the default extension page instead of a separate custom admin route.
+
 ### Setup
 
 ```bash
@@ -120,64 +134,3 @@ MIT License
 ## Support
 
 For issues, feature requests, or contributions, please visit the [GitHub repository](https://github.com/Zephyr-Isle/flarum-registration-code).
-
-## Changelog
-
-### 2.0.10
-- Use default extension page with Admin.setting() approach
-- Remove custom page approach for better compatibility
-- Add enabled boolean setting and RegistrationCodeManager component
-
-### 2.0.9
-- Add debug logging to RegistrationCodePage
-- Investigate custom page rendering issues
-
-### 2.0.8
-- Add settings container to admin page
-- Use buildSettingComponent for enabled setting
-- Separate settings from manager UI
-
-### 2.0.7
-- Add enabled setting for registration code requirement
-- Add English and Chinese translations
-
-### 2.0.6
-- Revert to Admin.page() approach for complex component
-- Recreate RegistrationCodePage component
-
-### 2.0.5
-- Use Admin.setting() with component type
-- Remove unused RegistrationCodePage component
-
-### 2.0.4
-- Implemented custom admin page using ExtensionPage for Flarum v2 compatibility
-- Updated admin extend.ts to use Admin.page() method
-- Added RegistrationCodePage component extending ExtensionPage
-
-### 2.0.3
-- Added TypeScript configuration for frontend development
-- Rebuilt frontend files with TypeScript support
-
-### 2.0.2
-- Fixed admin settings initialization for Flarum v2 compatibility
-- Updated admin extend.ts to use Extend.Admin() API
-- Updated admin index.ts to properly export extend module
-
-### 2.0.1
-- Fixed YAML parsing error in locale files
-- Quoted values containing colons in en.yml and zh-Hans.yml
-
-### 2.0.0
-- Updated for Flarum v2 compatibility
-- Updated PHP requirement to 8.3+
-- Updated to use new ApiResource extender instead of deprecated ApiSerializer
-- Updated model to use $casts instead of $dates for Laravel 13 compatibility
-- Updated webpack configuration for Flarum v2
-- Updated admin settings API for Flarum v2
-
-### 1.0.0
-- Initial release
-- Basic registration code management
-- CSV import/export functionality
-- Admin interface
-- User registration validation

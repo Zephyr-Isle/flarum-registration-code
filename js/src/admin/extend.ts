@@ -1,6 +1,6 @@
 import Extend from 'flarum/common/extenders';
 import app from 'flarum/admin/app';
-import RegistrationCodePage from './components/RegistrationCodePage';
+import RegistrationCodeManager from './components/RegistrationCodeManager';
 
 export default [
   new Extend.Admin()
@@ -9,9 +9,14 @@ export default [
       label: app.translator.trans('zephyrisle-registration-code.admin.settings.enabled_label', {}, true),
       type: 'boolean',
     }), 30)
-    .page(() => ({
-      name: 'zephyrisle-registration-code',
-      path: '/registration-codes',
-      component: RegistrationCodePage,
-    }))
+    .setting(
+      () => function () {
+        return m('div', { className: 'Form-group' }, [
+          m('label', app.translator.trans('zephyrisle-registration-code.admin.manager.heading')),
+          m('p', { className: 'helpText' }, app.translator.trans('zephyrisle-registration-code.admin.manager.description')),
+          m(RegistrationCodeManager),
+        ]);
+      },
+      40
+    )
 ];
