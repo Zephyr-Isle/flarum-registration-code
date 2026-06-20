@@ -20,10 +20,15 @@ app.initializers.add('zephyrisle/flarum-registration-code', () => {
     items.remove('email');
     items.add(
       'registrationCode',
-      <div className="Form-group">
-        <label>{app.translator.trans('zephyrisle-registration-code.forum.signup.registration_code_label')}</label>
-        <input className="FormControl" type="text" placeholder={app.translator.trans('zephyrisle-registration-code.forum.signup.registration_code_placeholder')} bidi={this.registrationCode} />
-      </div>,
+      m('div', { className: 'Form-group' }, [
+        m('label', app.translator.trans('zephyrisle-registration-code.forum.signup.registration_code_label')),
+        m('input', {
+          className: 'FormControl',
+          type: 'text',
+          placeholder: app.translator.trans('zephyrisle-registration-code.forum.signup.registration_code_placeholder'),
+          bidi: this.registrationCode,
+        }),
+      ]),
       5
     );
   });
