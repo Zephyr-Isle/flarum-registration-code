@@ -6,7 +6,19 @@ export default class RegistrationCodePage extends ExtensionPage {
   content() {
     return (
       <div className="RegistrationCodePage">
-        <RegistrationCodeManager />
+        <div className="container">
+          <div className="ExtensionPageSettingsContainer">
+            {this.buildSettingComponent({
+              setting: 'zephyrisle-registration-code.enabled',
+              label: app.translator.trans('zephyrisle-registration-code.admin.settings.enabled_label'),
+              type: 'boolean',
+            })}
+          </div>
+          
+          <div className="RegistrationCodeManagerContainer">
+            <RegistrationCodeManager />
+          </div>
+        </div>
       </div>
     );
   }
