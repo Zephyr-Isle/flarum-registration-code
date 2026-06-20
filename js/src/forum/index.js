@@ -1,7 +1,6 @@
 import app from 'flarum/forum/app';
 import { extend } from 'flarum/common/extend';
 import Stream from 'flarum/common/utils/Stream';
-import SignUpModal from 'flarum/forum/components/SignUpModal';
 
 function forumDomain() {
   return window.location.hostname || 'forum.local';
@@ -12,6 +11,13 @@ function autoEmail(username) {
 }
 
 app.initializers.add('zephyrisle/flarum-registration-code', () => {
+  // Flarum 2 中 SignUpModal 可能是懒加载的，先安全获取
+  const SignUpModal = flarum.reg.get('core', 'forum/components/SignUpModal');
+
+  if (!SignUpModal || !SignUpModal.prototype) {
+    return;
+  }
+
   extend(SignUpModal.prototype, 'oninit', function () {
     this.registrationCode = Stream('');
   });
