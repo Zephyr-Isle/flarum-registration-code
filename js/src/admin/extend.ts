@@ -1,6 +1,6 @@
 import Extend from 'flarum/common/extenders';
 import app from 'flarum/admin/app';
-import RegistrationCodeManager from './components/RegistrationCodeManager';
+import RegistrationCodePage from './components/RegistrationCodePage';
 
 export default [
   new Extend.Admin()
@@ -12,6 +12,6 @@ export default [
     .page(() => ({
       name: 'zephyrisle-registration-code',
       path: '/registration-codes',
-      component: RegistrationCodeManager,
+      component: RegistrationCodePage,
     }))
 ];
