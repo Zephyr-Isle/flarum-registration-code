@@ -123,6 +123,24 @@ For issues, feature requests, or contributions, please visit the [GitHub reposit
 
 ## Changelog
 
+### 2.0.4
+- Implemented custom admin page using ExtensionPage for Flarum v2 compatibility
+- Updated admin extend.ts to use Admin.page() method
+- Added RegistrationCodePage component extending ExtensionPage
+
+### 2.0.3
+- Added TypeScript configuration for frontend development
+- Rebuilt frontend files with TypeScript support
+
+### 2.0.2
+- Fixed admin settings initialization for Flarum v2 compatibility
+- Updated admin extend.ts to use Extend.Admin() API
+- Updated admin index.ts to properly export extend module
+
+### 2.0.1
+- Fixed YAML parsing error in locale files
+- Quoted values containing colons in en.yml and zh-Hans.yml
+
 ### 2.0.0
 - Updated for Flarum v2 compatibility
 - Updated PHP requirement to 8.3+
