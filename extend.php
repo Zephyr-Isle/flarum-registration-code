@@ -38,4 +38,7 @@ return [
         ->fields(fn () => [
             Schema\Str::make('registrationCode'),
         ]),
+
+    (new Extend\Settings())
+        ->default('zephyrisle-registration-code.enabled', true),
 ];
