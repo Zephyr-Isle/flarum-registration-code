@@ -32,3 +32,17 @@ zephyrisle-registration-code:
       status:
         used: Used
         unused: Unused
+  api:
+    errors:
+      code_required: Registration code is required.
+      code_invalid: The registration code is invalid.
+      code_used: This registration code has already been used.
+      code_exists: This registration code already exists.
+      username_required: Username is required.
+      username_taken: This username is already taken by an existing user.
+      username_mismatch: This registration code is assigned to another username.
+      import_empty: Please provide CSV content to import.
+    messages:
+      code_created: Registration code created.
+      code_deleted: Registration code deleted.
+      import_complete: Import complete.

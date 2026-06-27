@@ -2,8 +2,8 @@
 
 namespace Zephyrisle\RegistrationCode\Api\Controller;
 
+use Flarum\Foundation\ValidationException;
 use Flarum\User\User;
-use Illuminate\Validation\ValidationException;
 use Laminas\Diactoros\Response\JsonResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -20,19 +20,27 @@ class CreateRegistrationCodeController extends AbstractRegistrationCodeControlle
         $code = trim((string) $this->input($request, 'code', ''));
 
         if ($username === '') {
-            throw ValidationException::withMessages(['username' => 'Username is required.']);
+            throw new ValidationException([
+                'username' => app('translator')->trans('zephyrisle-registration-code.api.errors.username_required'),
+            ]);
         }
 
         if ($code === '') {
-            throw ValidationException::withMessages(['code' => 'Registration code is required.']);
+            throw new ValidationException([
+                'code' => app('translator')->trans('zephyrisle-registration-code.api.errors.code_required'),
+            ]);
         }
 
         if (RegistrationCode::query()->where('code', $code)->exists()) {
-            throw ValidationException::withMessages(['code' => 'This registration code already exists.']);
+            throw new ValidationException([
+                'code' => app('translator')->trans('zephyrisle-registration-code.api.errors.code_exists'),
+            ]);
         }
 
         if (User::query()->where('username', $username)->exists()) {
-            throw ValidationException::withMessages(['username' => 'This username is already taken by an existing user.']);
+            throw new ValidationException([
+                'username' => app('translator')->trans('zephyrisle-registration-code.api.errors.username_taken'),
+            ]);
         }
 
         $record = RegistrationCode::query()->create([
@@ -50,7 +58,7 @@ class CreateRegistrationCodeController extends AbstractRegistrationCodeControlle
                 'usedAt' => null,
                 'createdAt' => $record->created_at ? $record->created_at->toAtomString() : null,
             ],
-            'message' => 'Registration code created.',
+            'message' => app('translator')->trans('zephyrisle-registration-code.api.messages.code_created'),
         ], 201);
     }
 }

@@ -32,3 +32,17 @@ zephyrisle-registration-code:
       status:
         used: 已使用
         unused: 未使用
+  api:
+    errors:
+      code_required: 注册码不能为空。
+      code_invalid: 注册码无效。
+      code_used: 该注册码已被使用。
+      code_exists: 该注册码已存在。
+      username_required: 用户名不能为空。
+      username_taken: 该用户名已被其他用户使用。
+      username_mismatch: 该注册码分配给了其他用户名。
+      import_empty: 请提供要导入的 CSV 内容。
+    messages:
+      code_created: 注册码创建成功。
+      code_deleted: 注册码已删除。
+      import_complete: 导入完成。

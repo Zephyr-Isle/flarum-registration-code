@@ -18,6 +18,6 @@ class DeleteRegistrationCodeController extends AbstractRegistrationCodeControlle
         $record = RegistrationCode::query()->findOrFail($id);
         $record->delete();
 
-        return new JsonResponse(['message' => 'Registration code deleted.']);
+        return new JsonResponse(['message' => app('translator')->trans('zephyrisle-registration-code.api.messages.code_deleted')]);
     }
 }

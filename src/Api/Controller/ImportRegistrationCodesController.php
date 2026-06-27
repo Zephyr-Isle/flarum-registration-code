@@ -2,8 +2,8 @@
 
 namespace Zephyrisle\RegistrationCode\Api\Controller;
 
+use Flarum\Foundation\ValidationException;
 use Flarum\User\User;
-use Illuminate\Validation\ValidationException;
 use Laminas\Diactoros\Response\JsonResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -19,7 +19,9 @@ class ImportRegistrationCodesController extends AbstractRegistrationCodeControll
         $content = trim((string) $this->input($request, 'content', ''));
 
         if ($content === '') {
-            throw ValidationException::withMessages(['content' => 'Please provide CSV content to import.']);
+            throw new ValidationException([
+                'content' => app('translator')->trans('zephyrisle-registration-code.api.errors.import_empty'),
+            ]);
         }
 
         $created = 0;
@@ -59,7 +61,7 @@ class ImportRegistrationCodesController extends AbstractRegistrationCodeControll
         }
 
         return new JsonResponse([
-            'message' => 'Import complete.',
+            'message' => app('translator')->trans('zephyrisle-registration-code.api.messages.import_complete'),
             'summary' => [
                 'created' => $created,
                 'skipped' => $skipped,
