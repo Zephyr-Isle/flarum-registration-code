@@ -1,7 +1,6 @@
 import app from 'flarum/forum/app';
 import { extend } from 'flarum/common/extend';
 import Stream from 'flarum/common/utils/Stream';
-import m from 'flarum/common/utils/mithril';
 
 function forumDomain() {
   return window.location.hostname || 'forum.local';
@@ -21,15 +20,15 @@ app.initializers.add('zephyrisle/flarum-registration-code', () => {
       items.remove('email');
       items.add(
         'registrationCode',
-        m('div', { className: 'Form-group' }, [
-          m('label', app.translator.trans('zephyrisle-registration-code.forum.signup.registration_code_label')),
-          m('input', {
-            className: 'FormControl',
-            type: 'text',
-            placeholder: app.translator.trans('zephyrisle-registration-code.forum.signup.registration_code_placeholder'),
-            bidi: this.registrationCode,
-          }),
-        ]),
+        <div className="Form-group">
+          <label>{app.translator.trans('zephyrisle-registration-code.forum.signup.registration_code_label')}</label>
+          <input
+            className="FormControl"
+            type="text"
+            placeholder={app.translator.trans('zephyrisle-registration-code.forum.signup.registration_code_placeholder')}
+            bidi={this.registrationCode}
+          />
+        </div>,
         5
       );
     });
