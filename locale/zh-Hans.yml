@@ -19,6 +19,7 @@ zephyrisle-registration-code:
       import_label: 导入 CSV
       import_placeholder: "粘贴 CSV 内容，每行一条，格式：username,code"
       import_button: 导入
+      import_summary: "导入完成：新增 {created} 条，跳过 {skipped} 条。"
       empty_text: 暂无注册码数据。
       delete_button: 删除
       delete_confirm: 确定要删除此注册码吗？

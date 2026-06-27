@@ -1,12 +1,12 @@
 import app from 'flarum/admin/app';
+import ExtensionPage from 'flarum/admin/components/ExtensionPage';
 import Button from 'flarum/common/components/Button';
-import Component from 'flarum/common/Component';
 import Stream from 'flarum/common/utils/Stream';
 import extractText from 'flarum/common/utils/extractText';
 import withAttr from 'flarum/common/utils/withAttr';
 
 function apiUrl(path = '') {
-  const base = (app.forum && app.forum.attribute && app.forum.attribute('apiUrl')) || app.data.apiUrl || '/api';
+  const base = app.forum?.attribute?.('apiUrl') || app.data?.apiUrl || '/api';
   return `${base}${path}`;
 }
 
@@ -18,11 +18,15 @@ function errorMessage(error) {
   return error?.response?.errors?.[0]?.detail || error?.message || extractText(app.translator.trans('core.lib.error.generic_message'));
 }
 
-export default class RegistrationCodeManager extends Component {
-  oninit() {
-    this.loading = false;
-    this.submitting = false;
-    this.records = [];
+export default class RegistrationCodeManager extends ExtensionPage {
+  oninit(vnode) {
+    super.oninit(vnode);
+
+    this.state = this.state || {};
+    this.state.loading = false;
+    this.state.submitting = false;
+    this.state.records = [];
+
     this.username = Stream('');
     this.code = Stream('');
     this.importContent = Stream('');
@@ -30,24 +34,21 @@ export default class RegistrationCodeManager extends Component {
   }
 
   async load() {
-    this.loading = true;
-    m.redraw();
+    this.state.loading = true;
 
     try {
       const response = await app.request({ method: 'GET', url: apiUrl('/registration-codes') });
-      this.records = response.data || [];
+      this.state.records = response.data || [];
     } catch (error) {
       showAlert('error', errorMessage(error));
     } finally {
-      this.loading = false;
-      m.redraw();
+      this.state.loading = false;
     }
   }
 
   async addRecord(event) {
     event.preventDefault();
-    this.submitting = true;
-    m.redraw();
+    this.state.submitting = true;
 
     try {
       const response = await app.request({
@@ -58,13 +59,12 @@ export default class RegistrationCodeManager extends Component {
 
       this.username('');
       this.code('');
-      showAlert('success', response.message || 'Registration code created.');
+      showAlert('success', response.message || app.translator.trans('zephyrisle-registration-code.api.messages.code_created'));
       await this.load();
     } catch (error) {
       showAlert('error', errorMessage(error));
     } finally {
-      this.submitting = false;
-      m.redraw();
+      this.state.submitting = false;
     }
   }
 
@@ -73,24 +73,21 @@ export default class RegistrationCodeManager extends Component {
       return;
     }
 
-    this.submitting = true;
-    m.redraw();
+    this.state.submitting = true;
 
     try {
       const response = await app.request({ method: 'DELETE', url: apiUrl(`/registration-codes/${id}`) });
-      showAlert('success', response.message || 'Registration code deleted.');
+      showAlert('success', response.message || app.translator.trans('zephyrisle-registration-code.api.messages.code_deleted'));
       await this.load();
     } catch (error) {
       showAlert('error', errorMessage(error));
     } finally {
-      this.submitting = false;
-      m.redraw();
+      this.state.submitting = false;
     }
   }
 
   async importRecords() {
-    this.submitting = true;
-    m.redraw();
+    this.state.submitting = true;
 
     try {
       const response = await app.request({
@@ -101,13 +98,18 @@ export default class RegistrationCodeManager extends Component {
 
       const summary = response.summary || { created: 0, skipped: 0 };
       this.importContent('');
-      showAlert('success', `Import complete. Created: ${summary.created}, skipped: ${summary.skipped}.`);
+      showAlert(
+        'success',
+        app.translator.trans('zephyrisle-registration-code.admin.manager.import_summary', {
+          created: summary.created,
+          skipped: summary.skipped,
+        })
+      );
       await this.load();
     } catch (error) {
       showAlert('error', errorMessage(error));
     } finally {
-      this.submitting = false;
-      m.redraw();
+      this.state.submitting = false;
     }
   }
 
@@ -136,40 +138,50 @@ export default class RegistrationCodeManager extends Component {
     }
 
     this.importContent(await file.text());
-    m.redraw();
   }
 
-  view() {
+  content() {
+    const { loading, submitting, records } = this.state;
+
     return (
       <div className="RegistrationCodeManager">
+        <div className="Form-group">
+          <label className="Checkbox">
+            <input type="checkbox" bidi={this.setting('zephyrisle-registration-code.enabled')} />
+            {app.translator.trans('zephyrisle-registration-code.admin.settings.enabled_label')}
+          </label>
+        </div>
+
+        <p className="helpText">{app.translator.trans('zephyrisle-registration-code.admin.manager.description')}</p>
+
         <form className="RegistrationCodeManager-form" onsubmit={this.addRecord.bind(this)}>
           <div className="Form-group">
             <label>{app.translator.trans('zephyrisle-registration-code.admin.manager.username_label')}</label>
-            <input className="FormControl" type="text" placeholder={extractText(app.translator.trans('zephyrisle-registration-code.admin.manager.username_placeholder'))} bidi={this.username} disabled={this.submitting} />
+            <input className="FormControl" type="text" placeholder={extractText(app.translator.trans('zephyrisle-registration-code.admin.manager.username_placeholder'))} bidi={this.username} disabled={submitting} />
           </div>
 
           <div className="Form-group">
             <label>{app.translator.trans('zephyrisle-registration-code.admin.manager.code_label')}</label>
-            <input className="FormControl" type="text" placeholder={extractText(app.translator.trans('zephyrisle-registration-code.admin.manager.code_placeholder'))} bidi={this.code} disabled={this.submitting} />
+            <input className="FormControl" type="text" placeholder={extractText(app.translator.trans('zephyrisle-registration-code.admin.manager.code_placeholder'))} bidi={this.code} disabled={submitting} />
           </div>
 
           <div className="ButtonGroup">
-            <Button className="Button Button--primary" type="submit" loading={this.submitting}>{app.translator.trans('zephyrisle-registration-code.admin.manager.add_button')}</Button>
-            <Button className="Button" type="button" onclick={this.load.bind(this)} disabled={this.loading || this.submitting}>{app.translator.trans('zephyrisle-registration-code.admin.manager.refresh_button')}</Button>
-            <Button className="Button" type="button" onclick={this.exportRecords.bind(this)} disabled={this.loading || this.submitting}>{app.translator.trans('zephyrisle-registration-code.admin.manager.export_button')}</Button>
+            <Button className="Button Button--primary" type="submit" loading={submitting}>{app.translator.trans('zephyrisle-registration-code.admin.manager.add_button')}</Button>
+            <Button className="Button" type="button" onclick={this.load.bind(this)} disabled={loading || submitting}>{app.translator.trans('zephyrisle-registration-code.admin.manager.refresh_button')}</Button>
+            <Button className="Button" type="button" onclick={this.exportRecords.bind(this)} disabled={loading || submitting}>{app.translator.trans('zephyrisle-registration-code.admin.manager.export_button')}</Button>
           </div>
         </form>
 
         <div className="Form-group">
           <label>{app.translator.trans('zephyrisle-registration-code.admin.manager.import_label')}</label>
-          <input className="FormControl" type="file" accept=".csv,text/csv" onchange={this.loadFile.bind(this)} disabled={this.submitting} />
-          <textarea className="FormControl RegistrationCodeManager-import" rows="6" placeholder={extractText(app.translator.trans('zephyrisle-registration-code.admin.manager.import_placeholder'))} value={this.importContent()} oninput={withAttr('value', this.importContent)} disabled={this.submitting} />
-          <Button className="Button Button--primary" type="button" onclick={this.importRecords.bind(this)} loading={this.submitting}>{app.translator.trans('zephyrisle-registration-code.admin.manager.import_button')}</Button>
+          <input className="FormControl" type="file" accept=".csv,text/csv" onchange={this.loadFile.bind(this)} disabled={submitting} />
+          <textarea className="FormControl RegistrationCodeManager-import" rows="6" placeholder={extractText(app.translator.trans('zephyrisle-registration-code.admin.manager.import_placeholder'))} value={this.importContent()} oninput={withAttr('value', this.importContent)} disabled={submitting} />
+          <Button className="Button Button--primary" type="button" onclick={this.importRecords.bind(this)} loading={submitting}>{app.translator.trans('zephyrisle-registration-code.admin.manager.import_button')}</Button>
         </div>
 
-        {this.loading ? (
+        {loading ? (
           <p>{app.translator.trans('core.admin.loading.text')}</p>
-        ) : this.records.length ? (
+        ) : records.length ? (
           <div className="RegistrationCodeManager-tableWrap">
             <table className="RegistrationCodeManager-table">
               <thead>
@@ -183,14 +195,14 @@ export default class RegistrationCodeManager extends Component {
                 </tr>
               </thead>
               <tbody>
-                {this.records.map((record) => (
+                {records.map((record) => (
                   <tr>
                     <td>{record.username}</td>
                     <td><code>{record.code}</code></td>
                     <td>{record.used ? app.translator.trans('zephyrisle-registration-code.admin.manager.status.used') : app.translator.trans('zephyrisle-registration-code.admin.manager.status.unused')}</td>
                     <td>{record.usedBy || '-'}</td>
                     <td>{record.usedAt || '-'}</td>
-                    <td><Button className="Button Button--danger Button--small" type="button" onclick={() => this.deleteRecord(record.id)} disabled={this.submitting}>{app.translator.trans('zephyrisle-registration-code.admin.manager.delete_button')}</Button></td>
+                    <td><Button className="Button Button--danger Button--small" type="button" onclick={() => this.deleteRecord(record.id)} disabled={submitting}>{app.translator.trans('zephyrisle-registration-code.admin.manager.delete_button')}</Button></td>
                   </tr>
                 ))}
               </tbody>
