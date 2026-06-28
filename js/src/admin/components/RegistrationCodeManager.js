@@ -1,5 +1,5 @@
 import app from 'flarum/admin/app';
-import ExtensionPage from 'flarum/admin/components/ExtensionPage';
+import Component from 'flarum/common/Component';
 import Button from 'flarum/common/components/Button';
 import Stream from 'flarum/common/utils/Stream';
 import extractText from 'flarum/common/utils/extractText';
@@ -18,15 +18,13 @@ function errorMessage(error) {
   return error?.response?.errors?.[0]?.detail || error?.message || extractText(app.translator.trans('core.lib.error.generic_message'));
 }
 
-export default class RegistrationCodeManager extends ExtensionPage {
+export default class RegistrationCodeManager extends Component {
   oninit(vnode) {
     super.oninit(vnode);
 
-    this.state = this.state || {};
-    this.state.loading = false;
-    this.state.submitting = false;
-    this.state.records = [];
-
+    this.loading = false;
+    this.submitting = false;
+    this.records = [];
     this.username = Stream('');
     this.code = Stream('');
     this.importContent = Stream('');
@@ -34,21 +32,21 @@ export default class RegistrationCodeManager extends ExtensionPage {
   }
 
   async load() {
-    this.state.loading = true;
+    this.loading = true;
 
     try {
       const response = await app.request({ method: 'GET', url: apiUrl('/registration-codes') });
-      this.state.records = response.data || [];
+      this.records = response.data || [];
     } catch (error) {
       showAlert('error', errorMessage(error));
     } finally {
-      this.state.loading = false;
+      this.loading = false;
     }
   }
 
   async addRecord(event) {
     event.preventDefault();
-    this.state.submitting = true;
+    this.submitting = true;
 
     try {
       const response = await app.request({
@@ -64,7 +62,7 @@ export default class RegistrationCodeManager extends ExtensionPage {
     } catch (error) {
       showAlert('error', errorMessage(error));
     } finally {
-      this.state.submitting = false;
+      this.submitting = false;
     }
   }
 
@@ -73,7 +71,7 @@ export default class RegistrationCodeManager extends ExtensionPage {
       return;
     }
 
-    this.state.submitting = true;
+    this.submitting = true;
 
     try {
       const response = await app.request({ method: 'DELETE', url: apiUrl(`/registration-codes/${id}`) });
@@ -82,12 +80,12 @@ export default class RegistrationCodeManager extends ExtensionPage {
     } catch (error) {
       showAlert('error', errorMessage(error));
     } finally {
-      this.state.submitting = false;
+      this.submitting = false;
     }
   }
 
   async importRecords() {
-    this.state.submitting = true;
+    this.submitting = true;
 
     try {
       const response = await app.request({
@@ -109,7 +107,7 @@ export default class RegistrationCodeManager extends ExtensionPage {
     } catch (error) {
       showAlert('error', errorMessage(error));
     } finally {
-      this.state.submitting = false;
+      this.submitting = false;
     }
   }
 
@@ -140,18 +138,12 @@ export default class RegistrationCodeManager extends ExtensionPage {
     this.importContent(await file.text());
   }
 
-  content() {
-    const { loading, submitting, records } = this.state;
+  view() {
+    const { loading, submitting, records } = this;
 
     return (
       <div className="RegistrationCodeManager">
-        <div className="Form-group">
-          <label className="Checkbox">
-            <input type="checkbox" bidi={this.setting('zephyrisle-registration-code.enabled')} />
-            {app.translator.trans('zephyrisle-registration-code.admin.settings.enabled_label')}
-          </label>
-        </div>
-
+        <h3>{app.translator.trans('zephyrisle-registration-code.admin.manager.heading')}</h3>
         <p className="helpText">{app.translator.trans('zephyrisle-registration-code.admin.manager.description')}</p>
 
         <form className="RegistrationCodeManager-form" onsubmit={this.addRecord.bind(this)}>
